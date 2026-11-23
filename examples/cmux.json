@@ -1,0 +1,53 @@
+{
+  // A small ~/.config/cmux/cmux.json for running several coding agents at once.
+  // cmux reads JSON with comments. Tested on cmux 0.65.2. Check it with:
+  //   cmux config doctor
+  // and apply it with:
+  //   cmux reload-config
+  "$schema": "https://raw.githubusercontent.com/manaflow-ai/cmux/main/web/data/cmux.schema.json",
+  "schemaVersion": 1,
+
+  "sidebar": {
+    // The sidebar subtitle defaults to the text of the LAST notification, which
+    // never expires, so every workspace ends up reading "waiting for your
+    // input" whatever it is doing. The Inbox sidebar shows live state instead.
+    "showNotificationMessage": false
+  },
+
+  "notifications": {
+    // By default a banner is withdrawn when its WORKSPACE becomes visible. With
+    // two agents in one workspace, a banner from the tab you are not looking at
+    // vanishes before you see it. This withdraws only for the exact focused tab.
+    "suppressOnlyFocusedSurface": true,
+
+    // The ~60 s "agent is idle" nudge duplicates the turn-end banner it follows.
+    "agentIdleReminder": false,
+
+    "hooks": [
+      {
+        "id": "workspace-and-action",
+        // Use an absolute path. Replace YOU with your macOS username.
+        "command": "/Users/YOU/.config/cmux/hooks/enrich-notification.py",
+        "timeoutSeconds": 5
+      }
+    ]
+  },
+
+  "app": {
+    // Make cmux's own Go to Workspace list (and the fallback below) put the
+    // workspace you just left first.
+    "goToWorkspaceOrder": "recent"
+  },
+
+  "shortcuts": {
+    "bindings": {
+      // Native fallback for Cmd+G if the switcher helper is not running: the
+      // Go to Workspace list, most recent first, and Cmd+G again moves down it.
+      // Find Next moves to Cmd+Ctrl+G to free the chord. Leave this block out
+      // if you do not want to give up Cmd+G for Find Next.
+      "goToWorkspace": "cmd+g",
+      "commandPaletteNext": "cmd+g",
+      "findNext": "cmd+ctrl+g"
+    }
+  }
+}
