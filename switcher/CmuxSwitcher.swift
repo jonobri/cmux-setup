@@ -778,8 +778,8 @@ final class Switcher {
     }
 
     /// Shows the list with invented tabs over a plain backdrop, then steps down
-    /// it. For checking the layout and taking screenshots without exposing real
-    /// tab names: nothing here reads cmux.
+    /// it. For checking the layout and recording demos without exposing real tab
+    /// names: nothing here reads your tabs.
     func demo() {
         func tab(_ id: String, _ workspace: String, _ title: String, _ hex: String, kind: String = "terminal") -> Tab {
             Tab(id: id, workspaceID: workspace, workspaceTitle: workspace, title: title, kind: kind, color: color(hex: hex))
@@ -797,12 +797,16 @@ final class Switcher {
         if let screen = NSScreen.main {
             let backdrop = NSWindow(contentRect: screen.frame, styleMask: .borderless, backing: .buffered, defer: false)
             backdrop.backgroundColor = NSColor(calibratedRed: 0.16, green: 0.18, blue: 0.24, alpha: 1)
-            backdrop.level = .normal
+            backdrop.level = .floating // above ordinary windows, below the list, so a recording shows nothing else
             backdrop.orderFrontRegardless()
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
+        // Cmd+G opens on the previous tab, then each further press moves down one.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [self] in
             hud.show(items: list, selected: 1)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) { self.hud.select(2) }
+            for (i, t) in [1.0, 1.7, 2.4].enumerated() {
+                DispatchQueue.main.asyncAfter(deadline: .now() + t) { self.hud.select(i + 2) }
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.6) { self.hud.hide() }
         }
     }
 }
@@ -814,7 +818,7 @@ application.setActivationPolicy(.accessory)
 
 if CommandLine.arguments.contains("--demo") {
     Switcher.shared.demo()
-    DispatchQueue.main.asyncAfter(deadline: .now() + 9) { exit(0) }
+    DispatchQueue.main.asyncAfter(deadline: .now() + 6) { exit(0) }
 } else {
     Switcher.shared.start()
 }

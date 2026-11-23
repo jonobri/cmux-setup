@@ -6,9 +6,9 @@ This is an unofficial community project. It is not made by or affiliated with th
 
 |  Cmd+G switcher | Inbox sidebar |
 | --- | --- |
-| <img src="docs/images/switcher-hud.png" width="420" alt="The Cmd+G switcher listing eight recent tabs with coloured workspace tags"> | <img src="docs/images/sidebar-inbox.png" width="300" alt="The Inbox sidebar with Next, Your turn, Running and Priority sections above a coloured workspace list"> |
+| <img src="docs/images/switcher-hud.gif" width="420" alt="Pressing Cmd+G opens a list of eight recent tabs with coloured workspace tags, and each further press moves down it"> | <img src="docs/images/sidebar-inbox.png" width="300" alt="The Inbox sidebar with Next, Your turn, Running and Priority sections above a coloured workspace list"> |
 
-The screenshots use invented workspace names. The switcher's `--demo` mode draws the first one without reading your tabs.
+The demos use invented workspace names. The switcher's `--demo` mode draws the first one, stepping down the list, without reading your tabs.
 
 ## What you get
 
